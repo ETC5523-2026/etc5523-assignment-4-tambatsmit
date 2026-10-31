@@ -23,3 +23,5 @@ Depends:
     R (>= 4.1)
 LazyData: true
 Config/roxygen2/version: 8.1.1
+Imports: 
+    dplyr
