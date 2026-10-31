@@ -61,3 +61,5 @@ electricity_mix <- shares |>
   dplyr::select(country, year, source, generation, share)
 
 usethis::use_data(electricity_mix, overwrite = TRUE)
+
+

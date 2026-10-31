@@ -26,6 +26,7 @@ Missing if that year was not reported.}
 \item{change}{Change from \code{from} to \code{to}, in percentage points.
 Negative values are falls. Missing when either year is missing.}
 \item{change_per_year}{Average change per year, in percentage points.}
+\item{result}{The result in words, written to follow the country name.}
 }
 }
 \description{

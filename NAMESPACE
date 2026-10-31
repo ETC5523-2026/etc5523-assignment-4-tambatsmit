@@ -2,8 +2,10 @@
 
 export(share_change)
 importFrom(dplyr,
+  case_when,
   first,
   group_by,
   mutate,
+  select,
   summarise
 )
