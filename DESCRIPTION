@@ -24,4 +24,9 @@ Depends:
 LazyData: true
 Config/roxygen2/version: 8.1.1
 Imports: 
-    dplyr
+    bslib,
+    dplyr,
+    ggplot2,
+    ggrepel,
+    scales,
+    shiny
