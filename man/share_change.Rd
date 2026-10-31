@@ -35,3 +35,12 @@ from that source in \code{from} and in \code{to}, the change in percentage point
 and the average change per year. A percentage point is the difference
 between two percentages: a fall from 79\% to 43\% is a fall of 36 points.
 }
+\examples{
+changes <- share_change(electricity_mix, from = 2005, to = 2025)
+
+dplyr::filter(changes, country == "Australia", source == "coal")
+# Coal's share of Australia's electricity fell by about 37 points
+
+dplyr::filter(changes, country == "Indonesia", source == "coal")
+# Indonesia's data end in 2024, so its change cannot be measured
+}

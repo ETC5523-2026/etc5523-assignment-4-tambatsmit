@@ -22,6 +22,14 @@
 #'   \item{change_per_year}{Average change per year, in percentage points.}
 #'   \item{result}{The result in words, written to follow the country name.}
 #' }
+#' @examples
+#' changes <- share_change(electricity_mix, from = 2005, to = 2025)
+#'
+#' dplyr::filter(changes, country == "Australia", source == "coal")
+#' # Coal's share of Australia's electricity fell by about 37 points
+#'
+#' dplyr::filter(changes, country == "Indonesia", source == "coal")
+#' # Indonesia's data end in 2024, so its change cannot be measured
 #' @importFrom dplyr case_when first group_by mutate select summarise
 #' @export
 share_change <- function(data, from, to) {
