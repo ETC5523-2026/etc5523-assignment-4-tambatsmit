@@ -25,6 +25,9 @@
 #' @importFrom dplyr case_when first group_by mutate select summarise
 #' @export
 share_change <- function(data, from, to) {
+  if (to <= from) {
+    stop("`to` must be later than `from`.", call. = FALSE)
+  }
   data |>
     group_by(country, source) |>
     summarise(
