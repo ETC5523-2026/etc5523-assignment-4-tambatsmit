@@ -1,11 +1,24 @@
 Package: powershift
-Title: What the Package Does (One Line, Title Case)
+Title: Compare How Quickly Countries Are Changing Their Electricity Mix
 Version: 0.0.0.9000
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
-Config/roxygen2/version: 8.1.1
+Authors@R:
+    person(
+      "Smit", "Tambat",
+      email = "tambat.smit@gmail.com",
+      role = c("aut", "cre")
+    )
+Description: Provides Our World in Data estimates of how much of each
+    country's electricity came from coal, gas, oil, nuclear, hydro, wind,
+    solar, bioenergy and other renewables from 1985 to 2025, a function that
+    measures how much each source's share changed between two years, and a
+    'shiny' app that helps an energy policy analyst compare how quickly
+    countries are changing their electricity mix.
+License: MIT + file LICENSE
+URL: https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/,
+    https://github.com/ETC5523-2026/etc5523-assignment-4-tambatsmit
+BugReports: https://github.com/ETC5523-2026/etc5523-assignment-4-tambatsmit/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.1)
+LazyData: true
