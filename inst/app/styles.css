@@ -3,3 +3,19 @@
   --muted: #B8B8B8;
   --accent: #006DAE;
 }
+
+.bslib-page-main > .card,
+.bslib-page-main > .bslib-grid {
+  margin-bottom: 1rem;
+}
+
+.question {
+  color: var(--ink);
+  border-left: 8px solid var(--accent);
+  padding-left: 1rem;
+}
+
+.headline {
+  color: var(--accent);
+  font-weight: 700;
+}
