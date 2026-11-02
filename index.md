@@ -1,0 +1,50 @@
+# powershift
+
+powershift helps an **energy policy analyst preparing a briefing on a
+country’s electricity transition** answer one question:
+
+> How much has a country’s electricity from one source changed between
+> two years, and was that faster or slower than in other countries?
+
+Countries are moving their electricity away from coal and towards wind
+and solar at very different speeds. Comparing the change in each
+source’s share of electricity shows which countries are moving fastest,
+and which sources are replacing which.
+
+The package contains:
+
+- `electricity_mix`: Our World in Data estimates of how much of every
+  country’s electricity came from nine sources, from 1985 to 2025.
+- [`share_change()`](https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/reference/share_change.md):
+  how much each source’s share changed between two years, in percentage
+  points, with the result in words.
+- [`run_app()`](https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/reference/run_app.md):
+  a Shiny app that compares countries using these.
+
+Documentation website:
+<https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/>
+
+## Installation
+
+Install the package from GitHub:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("ETC5523-2026/etc5523-assignment-4-tambatsmit")
+```
+
+## Launch the app
+
+``` r
+
+library(powershift)
+run_app()
+```
+
+Choose a country to focus on, the countries to compare it with, a source
+of electricity and two years. The app reports how much that source’s
+share changed in each country, draws each country’s share over time,
+shows which sources rose and fell in the focus country, and explains any
+country without data for a year. The **Guide** tab explains every
+control and field.

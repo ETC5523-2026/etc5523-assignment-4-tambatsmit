@@ -1,0 +1,46 @@
+# Electricity generation by source, 1985 to 2025
+
+How much of each country's electricity was generated from each of nine
+sources, every year from 1985 to 2025. Each row is one source in one
+country and year. A row is included only when the source's share was
+reported, so coverage varies: about 80 countries have data before 2000,
+about 200 from 2000 to 2024, and about 90 for 2025.
+
+## Usage
+
+``` r
+electricity_mix
+```
+
+## Format
+
+A data frame with 54,663 rows and 5 columns:
+
+- country:
+
+  Country name, or "World" for the world total.
+
+- year:
+
+  Year.
+
+- source:
+
+  Source of electricity: "coal", "gas", "oil", "nuclear", "hydro",
+  "wind", "solar", "bioenergy" or "other renewables" (geothermal, wave
+  and tidal power).
+
+- generation:
+
+  Electricity generated from the source, in terawatt-hours (TWh).
+
+- share:
+
+  Percentage of the country's electricity generated from the source.
+
+## Source
+
+Our World in Data, energy dataset,
+<https://github.com/owid/energy-data>, based on Ember's Yearly
+Electricity Data and the Energy Institute's Statistical Review of World
+Energy. Licensed under CC BY 4.0.
