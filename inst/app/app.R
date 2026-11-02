@@ -164,6 +164,76 @@ ui <- page_sidebar(
         "why."
       ),
       tableOutput("change_table")
+    ),
+    nav_panel(
+      "Guide",
+      h4("Using the controls"),
+      p(
+        strong("Country to focus on: "),
+        "the country you are briefing on. It is drawn in blue, summarised in",
+        "the three boxes and broken down by source in the Whole mix tab."
+      ),
+      p(
+        strong("Countries to compare with: "),
+        "the countries to set it against, drawn in grey. Choose neighbours,",
+        "trading partners or countries with a similar mix."
+      ),
+      p(
+        strong("Source of electricity: "),
+        "the source whose share you want to follow, such as coal or solar."
+      ),
+      p(
+        strong("Years to compare: "),
+        "the start and end years. Everything on the page updates when you",
+        "move the slider."
+      ),
+      h4("What the fields mean"),
+      p(
+        strong("Share of electricity: "),
+        "the percentage of a country's electricity generated from the",
+        "source in that year."
+      ),
+      p(
+        strong("Change: "),
+        "the end-year share minus the start-year share, in percentage",
+        "points. A fall from 79% to 43% is a change of -36 points. Negative",
+        "values are falls."
+      ),
+      p(
+        strong("Change per year: "),
+        "the change divided by the number of years between the two years.",
+        "It shows how fast the share moved on average."
+      ),
+      p(
+        strong("Result: "),
+        "the result in words, including why a change cannot be measured."
+      ),
+      h4("Reading the results"),
+      p(
+        "Compare countries over the same years: the bigger the change, the",
+        "faster the shift. A fall in one source's share is always matched by",
+        "rises in others, so use the Whole mix tab to see which sources took",
+        "its place."
+      ),
+      h4("Limitations"),
+      p(
+        strong("Shares are not amounts. "),
+        "A falling share can hide rising use. From 2005 to 2025, China's",
+        "coal share fell by 25 points, but its electricity from coal almost",
+        "tripled because it generated far more electricity overall."
+      ),
+      p(
+        strong("Electricity is only part of energy. "),
+        "Cars, heating and industry also burn fossil fuels directly, and",
+        "they are not counted here."
+      ),
+      p(
+        strong("Coverage varies. "),
+        "Only about 80 of the 213 countries have data before 2000, and the",
+        "2025 figures are early estimates for about 90 countries. If a",
+        "country has no data for a year, the app says so instead of guessing;",
+        "move the slider to years it covers."
+      )
     )
   )
 )
