@@ -30,3 +30,7 @@ Imports:
     ggrepel,
     scales,
     shiny
+Suggests: 
+    knitr,
+    quarto
+VignetteBuilder: quarto
