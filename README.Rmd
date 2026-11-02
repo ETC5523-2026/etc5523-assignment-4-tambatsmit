@@ -58,3 +58,44 @@ electricity and two years. The app reports how much that source's share
 changed in each country, draws each country's share over time, shows which
 sources rose and fell in the focus country, and explains any country without
 data for a year. The **Guide** tab explains every control and field.
+
+## Example
+
+How much did coal's share of electricity change from 2005 to 2025 in
+Australia, the United Kingdom, China and India?
+
+```{r example}
+library(powershift)
+
+share_change(electricity_mix, from = 2005, to = 2025) |>
+  dplyr::filter(
+    source == "coal",
+    country %in% c("Australia", "United Kingdom", "China", "India")
+  ) |>
+  dplyr::select(country, from_share, to_share, change)
+```
+
+Coal's share of Australia's electricity fell by about 37 percentage points,
+the largest fall of these four countries. The United Kingdom started lower and
+has almost stopped using coal, while India's share rose slightly. The `result`
+column, not shown here, explains each case in words.
+
+## Data
+
+- **Source:** the
+  [Our World in Data energy dataset](https://github.com/owid/energy-data),
+  based on Ember's Yearly Electricity Data and the Energy Institute's
+  Statistical Review of World Energy.
+- **Preparation:** `data-raw/electricity_mix.R` reads
+  `data-raw/owid-energy-data.csv` (downloaded on 30th October 2026), removes
+  regional and income-group totals, and reshapes the share and generation
+  columns for nine sources into one row per country, year and source. Run it
+  from the package folder to rebuild `data/electricity_mix.rda`.
+- **Licence:** the data are available under the
+  [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) licence. Cite them
+  as "Our World in Data, based on Ember (2026) and the Energy Institute
+  Statistical Review of World Energy (2025)".
+
+## Licence
+
+The package code is released under the MIT licence.
