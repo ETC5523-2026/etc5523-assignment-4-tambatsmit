@@ -112,3 +112,9 @@ The package code is released under the MIT licence.
   : How much each source's share of electricity changed between two
   years
 
+# Articles
+
+### All vignettes
+
+- [Comparing how quickly countries are changing their
+  electricity](https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/articles/powershift.md):
