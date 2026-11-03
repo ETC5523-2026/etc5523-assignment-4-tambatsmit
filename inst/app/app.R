@@ -51,6 +51,24 @@ with_sign <- function(change) {
   if_else(rounded > 0, paste0("+", rounded), paste0(rounded))
 }
 
+countries_with_the <- c(
+  "Bahamas", "British Virgin Islands", "Cayman Islands",
+  "Central African Republic", "Cook Islands", "Democratic Republic of Congo",
+  "Dominican Republic", "Falkland Islands", "Faroe Islands", "Gambia",
+  "Maldives", "Netherlands", "Philippines", "Solomon Islands",
+  "Turks and Caicos Islands", "United Arab Emirates", "United Kingdom",
+  "United States", "United States Virgin Islands", "World"
+)
+
+the_country <- function(country) {
+  if_else(country %in% countries_with_the, paste("the", country), country)
+}
+
+capitalise <- function(text) {
+  text <- as.character(text)
+  paste0(toupper(substr(text, 1, 1)), substr(text, 2, nchar(text)))
+}
+
 ui <- page_sidebar(
   title = "How quickly are countries changing their electricity?",
   theme = bs_theme(preset = "shiny", primary = "#006DAE"),
@@ -84,7 +102,7 @@ ui <- page_sidebar(
     ),
     helpText(
       "Coal, gas and oil are fossil fuels. Hydro, wind, solar, bioenergy",
-      "and other renewables are renewable."
+      "and other renewables are renewable. Nuclear is neither."
     ),
     sliderInput(
       "years",
@@ -105,22 +123,22 @@ ui <- page_sidebar(
     class = "question",
     p(
       strong("For: "),
-      "an energy policy analyst preparing a briefing on a country's",
+      "An energy policy analyst preparing a briefing on a country's",
       "electricity transition."
     ),
     p(
       strong("Question: "),
-      "how much has a country's electricity from one source changed between",
+      "How much has a country's electricity from one source changed between",
       "two years, and was that faster or slower than in other countries?"
     )
   ),
   layout_columns(
     value_box(
-      title = "Focus country: share of electricity in the end year",
+      title = "Focus country's share of electricity in the end year",
       value = textOutput("to_share")
     ),
     value_box(
-      title = "Focus country: change between the two years",
+      title = "Focus country's change between the two years",
       value = textOutput("change")
     ),
     value_box(
@@ -135,13 +153,17 @@ ui <- page_sidebar(
       textOutput("comparison_message"),
       plotOutput("share_plot", height = "480px"),
       p(
+        class = "note",
         "Each line is one country's share of electricity from the chosen",
         "source in each year. The dots mark the start and end years. The",
         "vertical gap between a country's two dots is its change in",
         "percentage points: a steeper line means faster change."
       ),
-      markdown(
-        "Data: [Our World in Data energy dataset](https://github.com/owid/energy-data), based on Ember and the Energy Institute's Statistical Review of World Energy, 1985 to 2025 (CC BY 4.0)."
+      div(
+        class = "source-note",
+        markdown(
+          "Data: [Our World in Data energy dataset](https://github.com/owid/energy-data), based on Ember and the Energy Institute's Statistical Review of World Energy, 1985 to 2025 (CC BY 4.0)."
+        )
       )
     ),
     nav_panel(
@@ -149,16 +171,18 @@ ui <- page_sidebar(
       h3(class = "headline", textOutput("mix_headline", inline = TRUE)),
       plotOutput("mix_plot", height = "420px"),
       p(
+        class = "note",
         "Each bar is the change in one source's share of the focus country's",
         "electricity between the two years. The shares add up to 100% in each",
         "year, so the falls and rises roughly balance: the rising sources",
         "show what replaced the falling ones. The chosen source is blue."
       ),
-      textOutput("mix_missing")
+      div(class = "note", textOutput("mix_missing"))
     ),
     nav_panel(
       "Table",
       p(
+        class = "note",
         "Every country shown, ordered from the largest fall to the largest",
         "rise. A dash means the year was not reported; the Result column says",
         "why."
@@ -170,43 +194,43 @@ ui <- page_sidebar(
       h4("Using the controls"),
       p(
         strong("Country to focus on: "),
-        "the country you are briefing on. It is drawn in blue, summarised in",
+        "The country you are briefing on. It is drawn in blue, summarised in",
         "the three boxes and broken down by source in the Whole mix tab."
       ),
       p(
         strong("Countries to compare with: "),
-        "the countries to set it against, drawn in grey. Choose neighbours,",
+        "The countries to set it against, drawn in grey. Choose neighbours,",
         "trading partners or countries with a similar mix."
       ),
       p(
         strong("Source of electricity: "),
-        "the source whose share you want to follow, such as coal or solar."
+        "The source whose share you want to follow, such as coal or solar."
       ),
       p(
         strong("Years to compare: "),
-        "the start and end years. Everything on the page updates when you",
+        "The start and end years. Everything on the page updates when you",
         "move the slider."
       ),
       h4("What the fields mean"),
       p(
         strong("Share of electricity: "),
-        "the percentage of a country's electricity generated from the",
+        "The percentage of a country's electricity generated from the",
         "source in that year."
       ),
       p(
         strong("Change: "),
-        "the end-year share minus the start-year share, in percentage",
+        "The end-year share minus the start-year share, in percentage",
         "points. A fall from 79% to 43% is a change of -36 points. Negative",
         "values are falls."
       ),
       p(
         strong("Change per year: "),
-        "the change divided by the number of years between the two years.",
+        "The change divided by the number of years between the two years.",
         "It shows how fast the share moved on average."
       ),
       p(
         strong("Result: "),
-        "the result in words, including why a change cannot be measured."
+        "The result in words, including why a change cannot be measured."
       ),
       h4("Reading the results"),
       p(
@@ -293,210 +317,214 @@ server <- function(input, output, session) {
     )
   })
 
-output$headline <- renderText({
-  validate(need(
-    input$country %in% source_changes()$country,
+  output$headline <- renderText({
+    focus_name <- capitalise(the_country(input$country))
+
+    validate(need(
+      input$country %in% source_changes()$country,
+      paste0(
+        focus_name, " has no ", input$source, " data. ",
+        "Choose another source or country."
+      )
+    ))
+
+    if (is.na(focus_change()$change)) {
+      return(paste0(
+        focus_name, " ", focus_change()$result, ". ",
+        "Move the slider to years with data."
+      ))
+    }
+
+    paste0(focus_name, " ", focus_change()$result, ".")
+  })
+
+  output$comparison_message <- renderText({
+    if (length(input$comparison) == 0) {
+      return(
+        "Add countries to compare with in the sidebar to see whether this change is fast or slow."
+      )
+    }
+
+    measured <- source_changes() |>
+      filter(!is.na(change)) |>
+      arrange(change)
+
+    if (nrow(measured) == 0) {
+      return(
+        "None of the countries shown has data for both years. Choose other years or countries."
+      )
+    }
+
+    if (nrow(measured) == 1) {
+      return(paste0(
+        "Of the countries shown, only ", the_country(measured$country),
+        " has data for both years. The Table tab explains the others."
+      ))
+    }
+
     paste0(
-      input$country, " has no ", input$source, " data. ",
-      "Choose another source or country."
+      "Of the countries shown, the change ranged from ",
+      with_sign(measured$change[1]), " points in ",
+      the_country(measured$country[1]), " to ",
+      with_sign(measured$change[nrow(measured)]), " points in ",
+      the_country(measured$country[nrow(measured)]),
+      ". The Table tab lists every country."
     )
-  ))
+  })
 
-  if (is.na(focus_change()$change)) {
-    return(paste0(
-      input$country, " ", focus_change()$result, ". ",
-      "Move the slider to years with data."
+  selected_data <- reactive({
+    validate(need(
+      input$years[1] < input$years[2],
+      "Choose two different years with the slider."
     ))
-  }
 
-  paste0(input$country, " ", focus_change()$result, ".")
-})
+    electricity_mix |>
+      filter(
+        source == input$source,
+        country %in% c(input$country, input$comparison),
+        between(year, input$years[1], input$years[2])
+      )
+  }, label = "selected_data")
 
-output$comparison_message <- renderText({
-  if (length(input$comparison) == 0) {
-    return(
-      "Add countries to compare with in the sidebar to see whether this change is fast or slow."
-    )
-  }
-
-  measured <- source_changes() |>
-    filter(!is.na(change)) |>
-    arrange(change)
-
-  if (nrow(measured) == 0) {
-    return(
-      "None of the countries shown has data for both years. Choose other years or countries."
-    )
-  }
-
-  if (nrow(measured) == 1) {
-    return(paste0(
-      "Of the countries shown, only ", measured$country, " has data for ",
-      "both years. The Table tab explains the others."
+  output$share_plot <- renderPlot({
+    validate(need(
+      nrow(selected_data()) > 0,
+      "None of the countries shown has data for these years."
     ))
-  }
 
-  paste0(
-    "Of the countries shown, the change ranged from ",
-    with_sign(measured$change[1]), " points in ",
-    measured$country[1], " to ",
-    with_sign(measured$change[nrow(measured)]), " points in ",
-    measured$country[nrow(measured)], ". The Table tab lists every country."
-  )
-})
+    plot_data <- selected_data() |>
+      mutate(focus = if_else(country == input$country, "Focus", "Context"))
 
-selected_data <- reactive({
-  validate(need(
-    input$years[1] < input$years[2],
-    "Choose two different years with the slider."
-  ))
+    endpoints <- plot_data |>
+      group_by(country) |>
+      slice_max(year, n = 1, with_ties = FALSE) |>
+      ungroup()
 
-  electricity_mix |>
-    filter(
-      source == input$source,
-      country %in% c(input$country, input$comparison),
-      between(year, input$years[1], input$years[2])
+    ends <- plot_data |>
+      filter(year %in% input$years)
+
+    year_step <- if_else(input$years[2] - input$years[1] < 10, 1, 5)
+
+    ggplot(plot_data, aes(year, share, group = country)) +
+      geom_line(colour = brand[["muted"]], linewidth = 0.75) +
+      geom_line(
+        data = filter(plot_data, focus == "Focus"),
+        colour = brand[["accent"]],
+        linewidth = 1.5
+      ) +
+      geom_point(data = ends, aes(colour = focus), size = 3) +
+      ggrepel::geom_text_repel(
+        data = endpoints,
+        aes(label = country, colour = focus),
+        direction = "y",
+        hjust = 0,
+        nudge_x = 0.02 * (input$years[2] - input$years[1]),
+        segment.colour = NA,
+        seed = 5523,
+        size = 4.5
+      ) +
+      scale_colour_manual(values = line_colours, guide = "none") +
+      scale_x_continuous(
+        breaks = scales::breaks_width(year_step),
+        expand = expansion(mult = c(0.01, 0.2))
+      ) +
+      scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+      coord_cartesian(clip = "off") +
+      labs(x = NULL, y = paste("Share of electricity from", input$source)) +
+      theme_cwd()
+  })
+
+  mix_changes <- reactive({
+    validate(need(
+      input$country != "",
+      "Choose a country to focus on in the sidebar."
+    ))
+
+    mix <- changes() |>
+      filter(country == input$country, !is.na(change)) |>
+      arrange(change)
+
+    validate(need(
+      nrow(mix) > 0,
+      paste(
+        capitalise(the_country(input$country)),
+        "has no sources with data for both years."
+      )
+    ))
+
+    mix |>
+      mutate(
+        source = factor(source, levels = source),
+        focus = if_else(source == input$source, "Focus", "Context")
+      )
+  }, label = "mix_changes")
+
+  output$mix_headline <- renderText({
+    paste0(
+      "In ", the_country(input$country), " from ", input$years[1], " to ",
+      input$years[2], ", the change ranged from ",
+      with_sign(mix_changes()$change[1]), " points for ",
+      mix_changes()$source[1], " to ",
+      with_sign(mix_changes()$change[nrow(mix_changes())]),
+      " points for ", mix_changes()$source[nrow(mix_changes())], "."
     )
-}, label = "selected_data")
+  })
 
-output$share_plot <- renderPlot({
-  validate(need(
-    nrow(selected_data()) > 0,
-    "None of the countries shown has data for these years."
-  ))
+  output$mix_plot <- renderPlot({
+    ggplot(mix_changes(), aes(change, source, fill = focus)) +
+      geom_col(width = 0.72) +
+      geom_vline(xintercept = 0, colour = brand[["ink"]]) +
+      geom_text(
+        aes(
+          label = with_sign(change),
+          hjust = if_else(change < 0, 1.15, -0.15)
+        ),
+        colour = brand[["ink"]],
+        size = 4.5
+      ) +
+      scale_fill_manual(values = focus_colours, guide = "none") +
+      scale_y_discrete(labels = capitalise) +
+      scale_x_continuous(expand = expansion(mult = 0.15)) +
+      coord_cartesian(clip = "off") +
+      labs(
+        x = paste(
+          "Change in share of electricity,", input$years[1], "to",
+          input$years[2], "(percentage points)"
+        ),
+        y = NULL
+      ) +
+      theme_cwd()
+  })
 
-  plot_data <- selected_data() |>
-    mutate(focus = if_else(country == input$country, "Focus", "Context"))
+  output$mix_missing <- renderText({
+    missing <- changes() |>
+      filter(country == input$country, is.na(change))
 
-  endpoints <- plot_data |>
-    group_by(country) |>
-    slice_max(year, n = 1, with_ties = FALSE) |>
-    ungroup()
+    if (nrow(missing) == 0) {
+      return("")
+    }
 
-  ends <- plot_data |>
-    filter(year %in% input$years)
-
-  year_step <- if_else(input$years[2] - input$years[1] < 10, 1, 5)
-
-  ggplot(plot_data, aes(year, share, group = country)) +
-    geom_line(colour = brand[["muted"]], linewidth = 0.75) +
-    geom_line(
-      data = filter(plot_data, focus == "Focus"),
-      colour = brand[["accent"]],
-      linewidth = 1.5
-    ) +
-    geom_point(data = ends, aes(colour = focus), size = 3) +
-    ggrepel::geom_text_repel(
-      data = endpoints,
-      aes(label = country, colour = focus),
-      direction = "y",
-      hjust = 0,
-      nudge_x = 0.02 * (input$years[2] - input$years[1]),
-      segment.colour = NA,
-      seed = 5523,
-      size = 4.5
-    ) +
-    scale_colour_manual(values = line_colours, guide = "none") +
-    scale_x_continuous(
-      breaks = scales::breaks_width(year_step),
-      expand = expansion(mult = c(0.01, 0.2))
-    ) +
-    scale_y_continuous(labels = scales::label_percent(scale = 1)) +
-    coord_cartesian(clip = "off") +
-    labs(x = NULL, y = paste("Share of electricity from", input$source)) +
-    theme_cwd()
-})
-
-mix_changes <- reactive({
-  validate(need(
-    input$country != "",
-    "Choose a country to focus on in the sidebar."
-  ))
-
-  mix <- changes() |>
-    filter(country == input$country, !is.na(change)) |>
-    arrange(change)
-
-  validate(need(
-    nrow(mix) > 0,
-    paste(input$country, "has no sources with data for both years.")
-  ))
-
-  mix |>
-    mutate(
-      source = factor(source, levels = source),
-      focus = if_else(source == input$source, "Focus", "Context")
+    paste0(
+      "Not shown because one of the two years has no data: ",
+      paste(capitalise(missing$source), collapse = ", "), "."
     )
-}, label = "mix_changes")
+  })
 
-output$mix_headline <- renderText({
-  paste0(
-    "In ", input$country, " from ", input$years[1], " to ", input$years[2],
-    ", the change ranged from ",
-    with_sign(mix_changes()$change[1]), " points for ",
-    mix_changes()$source[1], " to ",
-    with_sign(mix_changes()$change[nrow(mix_changes())]),
-    " points for ", mix_changes()$source[nrow(mix_changes())], "."
-  )
-})
+  output$change_table <- renderTable({
+    change_table <- source_changes() |>
+      arrange(change, country) |>
+      transmute(
+        Country = country,
+        from_share = round(from_share, 1),
+        to_share = round(to_share, 1),
+        `Change (points)` = round(change, 1),
+        `Change per year (points)` = round(change_per_year, 1),
+        Result = capitalise(result)
+      )
 
-output$mix_plot <- renderPlot({
-  ggplot(mix_changes(), aes(change, source, fill = focus)) +
-    geom_col(width = 0.72) +
-    geom_vline(xintercept = 0, colour = brand[["ink"]]) +
-    geom_text(
-      aes(
-        label = with_sign(change),
-        hjust = if_else(change < 0, 1.15, -0.15)
-      ),
-      colour = brand[["ink"]],
-      size = 4.5
-    ) +
-    scale_fill_manual(values = focus_colours, guide = "none") +
-    scale_x_continuous(expand = expansion(mult = 0.15)) +
-    coord_cartesian(clip = "off") +
-    labs(
-      x = paste(
-        "Change in share of electricity,", input$years[1], "to",
-        input$years[2], "(percentage points)"
-      ),
-      y = NULL
-    ) +
-    theme_cwd()
-})
-
-output$mix_missing <- renderText({
-  missing <- changes() |>
-    filter(country == input$country, is.na(change))
-
-  if (nrow(missing) == 0) {
-    return("")
-  }
-
-  paste0(
-    "Not shown, because one of the years was not reported: ",
-    paste(missing$source, collapse = ", "), "."
-  )
-})
-
-output$change_table <- renderTable({
-  change_table <- source_changes() |>
-    arrange(change, country) |>
-    transmute(
-      Country = country,
-      from_share = round(from_share, 1),
-      to_share = round(to_share, 1),
-      `Change (points)` = round(change, 1),
-      `Change per year (points)` = round(change_per_year, 1),
-      Result = result
-    )
-
-  names(change_table)[2:3] <- paste0("Share in ", input$years, " (%)")
-  change_table
-}, striped = TRUE, bordered = TRUE, spacing = "m", digits = 1, na = "-")
+    names(change_table)[2:3] <- paste0("Share in ", input$years, " (%)")
+    change_table
+  }, striped = TRUE, bordered = TRUE, spacing = "m", digits = 1, na = "-")
 }
 
 shinyApp(ui, server)
-
-
-
