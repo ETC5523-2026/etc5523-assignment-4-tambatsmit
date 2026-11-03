@@ -3,8 +3,9 @@
 powershift helps an **energy policy analyst preparing a briefing on a
 country’s electricity transition** answer one question:
 
-> How much has a country’s electricity from one source changed between
-> two years, and was that faster or slower than in other countries?
+> How much has the share of a country’s electricity from one source
+> changed between two years, and was that faster or slower than in other
+> countries?
 
 Countries are moving their electricity away from coal and towards wind
 and solar at very different speeds. Comparing the change in each
@@ -16,10 +17,10 @@ The package contains:
 - `electricity_mix`: Our World in Data estimates of how much of every
   country’s electricity came from nine sources, from 1985 to 2025.
 - [`share_change()`](https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/reference/share_change.md):
-  how much each source’s share changed between two years, in percentage
+  How much each source’s share changed between two years, in percentage
   points, with the result in words.
 - [`run_app()`](https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/reference/run_app.md):
-  a Shiny app that compares countries using these.
+  A Shiny app that compares countries using these.
 
 Documentation website:
 <https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/>
@@ -81,17 +82,17 @@ in words.
 
 ## Data
 
-- **Source:** the [Our World in Data energy
+- **Source:** The [Our World in Data energy
   dataset](https://github.com/owid/energy-data), based on Ember’s Yearly
   Electricity Data and the Energy Institute’s Statistical Review of
   World Energy.
 - **Preparation:** `data-raw/electricity_mix.R` reads
-  `data-raw/owid-energy-data.csv` (downloaded on 30th October 2026),
+  `data-raw/owid-energy-data.csv` (downloaded on 30 October 2026),
   removes regional and income-group totals, and reshapes the share and
   generation columns for nine sources into one row per country, year and
   source. Run it from the package folder to rebuild
   `data/electricity_mix.rda`.
-- **Licence:** the data are available under the [CC BY
+- **Licence:** The data are available under the [CC BY
   4.0](https://creativecommons.org/licenses/by/4.0/) licence. Cite them
   as “Our World in Data, based on Ember (2026) and the Energy Institute
   Statistical Review of World Energy (2025)”.
@@ -99,6 +100,18 @@ in words.
 ## Licence
 
 The package code is released under the MIT licence.
+
+## Generative AI declaration
+
+**Generative AI declaration:** I used Claude (Anthropic) to suggest the
+dataset and the app’s intended user and question; write and debug code
+for data preparation, package functions, the Shiny app and pkgdown
+setup; style and format the app and project materials; draft and rewrite
+wording for the README, vignette and documentation; proofread the app
+and documentation; suggest commit messages; and plan the walkthrough. I
+used ChatGPT (OpenAI) to review the package against the marking
+criteria. I ran and tested the code, checked the figures against the
+data, revised the text, and take responsibility for all submitted work.
 
 # Package index
 

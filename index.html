@@ -50,7 +50,7 @@
 </h1></div>
 <p>powershift helps an <strong>energy policy analyst preparing a briefing on a country’s electricity transition</strong> answer one question:</p>
 <blockquote>
-<p>How much has a country’s electricity from one source changed between two years, and was that faster or slower than in other countries?</p>
+<p>How much has the share of a country’s electricity from one source changed between two years, and was that faster or slower than in other countries?</p>
 </blockquote>
 <p>Countries are moving their electricity away from coal and towards wind and solar at very different speeds. Comparing the change in each source’s share of electricity shows which countries are moving fastest, and which sources are replacing which.</p>
 <p>The package contains:</p>
@@ -58,9 +58,9 @@
 <li>
 <code>electricity_mix</code>: Our World in Data estimates of how much of every country’s electricity came from nine sources, from 1985 to 2025.</li>
 <li>
-<code><a href="reference/share_change.html">share_change()</a></code>: how much each source’s share changed between two years, in percentage points, with the result in words.</li>
+<code><a href="reference/share_change.html">share_change()</a></code>: How much each source’s share changed between two years, in percentage points, with the result in words.</li>
 <li>
-<code><a href="reference/run_app.html">run_app()</a></code>: a Shiny app that compares countries using these.</li>
+<code><a href="reference/run_app.html">run_app()</a></code>: A Shiny app that compares countries using these.</li>
 </ul>
 <p>Documentation website: <a href="https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/" class="uri">https://etc5523-2026.github.io/etc5523-assignment-4-tambatsmit/</a></p>
 <div class="section level2">
@@ -106,17 +106,22 @@
 </h2>
 <ul>
 <li>
-<strong>Source:</strong> the <a href="https://github.com/owid/energy-data" class="external-link">Our World in Data energy dataset</a>, based on Ember’s Yearly Electricity Data and the Energy Institute’s Statistical Review of World Energy.</li>
+<strong>Source:</strong> The <a href="https://github.com/owid/energy-data" class="external-link">Our World in Data energy dataset</a>, based on Ember’s Yearly Electricity Data and the Energy Institute’s Statistical Review of World Energy.</li>
 <li>
-<strong>Preparation:</strong> <code>data-raw/electricity_mix.R</code> reads <code>data-raw/owid-energy-data.csv</code> (downloaded on 30th October 2026), removes regional and income-group totals, and reshapes the share and generation columns for nine sources into one row per country, year and source. Run it from the package folder to rebuild <code>data/electricity_mix.rda</code>.</li>
+<strong>Preparation:</strong> <code>data-raw/electricity_mix.R</code> reads <code>data-raw/owid-energy-data.csv</code> (downloaded on 30 October 2026), removes regional and income-group totals, and reshapes the share and generation columns for nine sources into one row per country, year and source. Run it from the package folder to rebuild <code>data/electricity_mix.rda</code>.</li>
 <li>
-<strong>Licence:</strong> the data are available under the <a href="https://creativecommons.org/licenses/by/4.0/" class="external-link">CC BY 4.0</a> licence. Cite them as “Our World in Data, based on Ember (2026) and the Energy Institute Statistical Review of World Energy (2025)”.</li>
+<strong>Licence:</strong> The data are available under the <a href="https://creativecommons.org/licenses/by/4.0/" class="external-link">CC BY 4.0</a> licence. Cite them as “Our World in Data, based on Ember (2026) and the Energy Institute Statistical Review of World Energy (2025)”.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="licence">Licence<a class="anchor" aria-label="anchor" href="#licence"></a>
 </h2>
 <p>The package code is released under the MIT licence.</p>
+</div>
+<div class="section level2">
+<h2 id="generative-ai-declaration">Generative AI declaration<a class="anchor" aria-label="anchor" href="#generative-ai-declaration"></a>
+</h2>
+<p><strong>Generative AI declaration:</strong> I used Claude (Anthropic) to suggest the dataset and the app’s intended user and question; write and debug code for data preparation, package functions, the Shiny app and pkgdown setup; style and format the app and project materials; draft and rewrite wording for the README, vignette and documentation; proofread the app and documentation; suggest commit messages; and plan the walkthrough. I used ChatGPT (OpenAI) to review the package against the marking criteria. I ran and tested the code, checked the figures against the data, revised the text, and take responsibility for all submitted work.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
