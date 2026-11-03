@@ -48,8 +48,8 @@ This guide is for an **energy policy analyst preparing a briefing on a
 country's electricity transition**. It shows how to install powershift,
 launch and use its app, and read the results to answer one question:
 
-> How much has a country's electricity from one source changed between two
-> years, and was that faster or slower than in other countries?
+> How much has the share of a country's electricity from one source changed
+> between two years, and was that faster or slower than in other countries?
 
 ## Shares and percentage points
 

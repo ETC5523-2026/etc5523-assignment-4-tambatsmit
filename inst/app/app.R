@@ -128,8 +128,9 @@ ui <- page_sidebar(
     ),
     p(
       strong("Question: "),
-      "How much has a country's electricity from one source changed between",
-      "two years, and was that faster or slower than in other countries?"
+      "How much has the share of a country's electricity from one source",
+      "changed between two years, and was that faster or slower than in",
+      "other countries?"
     )
   ),
   layout_columns(
@@ -234,10 +235,10 @@ ui <- page_sidebar(
       ),
       h4("Reading the results"),
       p(
-        "Compare countries over the same years: the bigger the change, the",
-        "faster the shift. A fall in one source's share is always matched by",
-        "rises in others, so use the Whole mix tab to see which sources took",
-        "its place."
+        "Compare countries over the same years: the larger the change in",
+        "either direction, the faster the shift. A fall in one source's share",
+        "is always matched by rises in others, so use the Whole mix tab to see",
+        "which sources took its place."
       ),
       h4("Limitations"),
       p(
