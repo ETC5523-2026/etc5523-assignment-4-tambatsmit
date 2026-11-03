@@ -1,3 +1,7 @@
+# Downloaded on 30 October 2026 from https://github.com/owid/energy-data
+# (owid-energy-data.csv, licensed under CC BY 4.0).
+# Needs the readr, janitor, tidyr and usethis packages.
+
 energy <- readr::read_csv(
   "data-raw/owid-energy-data.csv",
   show_col_types = FALSE
