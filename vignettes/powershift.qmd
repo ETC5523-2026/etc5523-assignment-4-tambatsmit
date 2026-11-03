@@ -83,29 +83,29 @@ no other files.
 
 Work down the sidebar:
 
-1. **Country to focus on:** the country you are briefing on. It is drawn in
+1. **Country to focus on:** The country you are briefing on. It is drawn in
    blue and summarised in the three boxes.
-2. **Countries to compare with:** the countries to set it against, drawn in
+2. **Countries to compare with:** The countries to set it against, drawn in
    grey. Click in the box and type a name to add a country; click a name and
    press Delete to remove it.
-3. **Source of electricity:** the source whose share you want to follow, such
+3. **Source of electricity:** The source whose share you want to follow, such
    as coal or solar.
-4. **Years to compare:** drag either end of the slider to set the start and
+4. **Years to compare:** Drag either end of the slider to set the start and
    end years.
 
 The page then shows:
 
-- **Three boxes:** the focus country's share in the end year, its change in
+- **Three boxes:** The focus country's share in the end year, its change in
   percentage points, and how many of the countries shown have data for both
   years.
-- **Compare countries tab:** a headline answering the question for the focus
+- **Compare countries tab:** A headline answering the question for the focus
   country, a sentence giving the range of changes across the countries shown,
   and a chart of each country's share over the years chosen.
-- **Whole mix tab:** the change in every source's share for the focus
+- **Whole mix tab:** The change in every source's share for the focus
   country, which shows what replaced what.
-- **Table tab:** each country's share in both years, the change, the change
+- **Table tab:** Each country's share in both years, the change, the change
   per year and the result in words.
-- **Guide tab:** what each control and field means, and the limitations.
+- **Guide tab:** What each control and field means, and the limitations.
 
 ## Read the outputs
 
@@ -261,10 +261,10 @@ changes |>
 - **No data for a year:** Indonesia's figures end in 2024, so the app reports
   "No data" and asks you to move the slider to years with data. Australia's
   nuclear figures also end in 2024; they are zero in every year reported.
-- **No data at all:** some countries never report a source. Australia has no
+- **No data at all:** Some countries never report a source. Australia has no
   "other renewables" figures, so the app asks you to choose another source or
   country.
-- **The same start and end year:** the app asks you to choose two different
+- **The same start and end year:** The app asks you to choose two different
   years.
 
 If no comparison countries are chosen, or none of them has data for both
